@@ -73,8 +73,6 @@
                                 🔍 Detay
                             </button>
                         </td>
-
-
                         <div class="modal fade" id="detayModal_@talep.Id" tabindex="-1" aria-labelledby="detayModalLabel_@talep.Id" aria-hidden="true">
                             <div class="modal-dialog modal-dialog-centered modal-lg">
                                 <div class="modal-content">
@@ -108,22 +106,12 @@
                                 </div>
                             </div>
                         </div>
-
-
-
-
-
-                        <td>
-                                                         
+                        <td>                                                         
                                 <form asp-action="TalepSil" method="post" onsubmit="return confirm('Bu talebi silmek istediğinizden emin misiniz?');">
                                     <input type="hidden" name="id" value="@talep.Id" />
                                     <button type="submit" class="btn btn-sm btn-outline-danger">🗑️</button>
                                 </form>
-
                         </td>
-
-
-
                     </tr>
                 }
             </tbody>

@@ -1,12 +1,6 @@
 ﻿@{
     ViewData["Title"] = "Yeni Tayin Talebi";
-    var unvanList = new List<string>
-    {
-        "Yazı İşleri Müdürü",
-        "Zabıt Katibi",
-        "Mübaşir",
-        "Hizmetli"
-    };
+    var unvanlar = ViewBag.UnvanListesi as List<string>;
 }
 
 <div class="container d-flex justify-content-center align-items-center" style="height: 100vh;">
@@ -15,39 +9,31 @@
 
         <div class="card-body">
             <h4 class="card-title text-center mb-3">Yeni Kullanıcı Kaydı</h4>
-
             @if (ViewBag.Hata != null)
             {
                 <div class="alert alert-danger text-center">@ViewBag.Hata</div>
             }
-
             <form asp-action="PersonelKayit" method="post">
-
                 <div class="mb-3">
                     <label for="adSoyad" class="form-label">Adı Soyadı</label>
                     <input type="text" class="form-control form-control-lg" id="adSoyad" name="adSoyad" required />
-
                 </div>
 
                 <div class="mb-3">
-
                     <label for="sicilNo" class="form-label">Sicil Numarası</label>
                     <input class="form-control form-control-lg" type="text" name="sicilNo" required />
                 </div>
-
-
                 <div class="mb-3">
                     <label for="unvan" class="form-label">Ünvanı</label>
                     <select class="form-select" id="unvan" name="unvan">
                         <option value="">Ünvan Seçiniz...</option>
-                        @foreach (var unvan in unvanList)
+                        @foreach (var unvan in unvanlar)
                         {
                             <option>@unvan</option>
 
                         }
                     </select>
                 </div>
-
                 <div class="mb-3">
                     <label for="gorevYeri" class="form-label">Görev Yeri</label>
                     <input type="text" class="form-control form-control-lg" id="gorevYeri" name="gorevYeri" required>
@@ -56,23 +42,17 @@
                 <div class="mb-3">
                     <label for="cinsiyet" class="form-label">Cinsiyet</label>
                     <select class="form-select" id="cinsiyet" name="cinsiyet">
-                       <option value="">Cinsiyet Seçiniz...</option>
+                        <option value="">Cinsiyet Seçiniz...</option>
                         <option value="Erkek">Erkek</option>
                         <option value="Kadın">Kadın</option>
-                    </select>              
-                </div> 
+                    </select>
+                </div>
 
                 <div class="mb-3">
                     <label for="sifre" class="form-label">Şifre</label>
                     <input type="password" class="form-control form-control-lg" id="sifre" name="sifre" required>
                 </div>
-
-
-
-
                 <button type="submit" class="btn btn-primary w-100 btn-lg mt-2">Giriş Yap</button>
-
-
             </form>
         </div>
     </div>

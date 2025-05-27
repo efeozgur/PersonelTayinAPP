@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using PersonelTayin.Models;
 
 namespace PersonelTayin.Controllers
@@ -16,6 +17,7 @@ namespace PersonelTayin.Controllers
 
         public ActionResult Index()
         {
+            ViewBag.UnvanListesi = UnvanListesi();
             return View();
         }
 
@@ -27,15 +29,16 @@ namespace PersonelTayin.Controllers
 
         public IActionResult PersonelKayit(string adSoyad, string sicilNo, string unvan, string gorevYeri, string sifre, string cinsiyet)
         {
+            var passwordHasher = new PasswordHasher<Personel>();
             var personel = new Personel
             {
                 AdSoyad = adSoyad,
                 SicilNo = sicilNo,  
                 Unvan = unvan,
-                GorevYeri = gorevYeri,
-                Sifre = sifre,
+                GorevYeri = gorevYeri,                
                 Cinsiyet= cinsiyet,
             };
+            personel.Sifre = passwordHasher.HashPassword(personel, sifre);
             _context.Personeller.Add(personel);
             _context.SaveChanges();
             ViewBag.Message = "Personel kaydı başarıyla eklendi.";

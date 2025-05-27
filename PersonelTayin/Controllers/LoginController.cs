@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using PersonelTayin.Models;
 
 namespace PersonelTayin.Controllers
@@ -21,18 +22,33 @@ namespace PersonelTayin.Controllers
         [HttpPost]
         public IActionResult Index(string sicilNo, string sifre)
         {
-            var personel = _context.Personeller.FirstOrDefault(p => p.SicilNo == sicilNo && p.Sifre == sifre);
 
-            if (personel != null)
+            var person = _context.Personeller.FirstOrDefault(p => p.SicilNo == sicilNo);
+
+            if (person == null)
             {
-                // Kullanıcı ID’sini session’a yaz
-                HttpContext.Session.SetInt32("PersonelId", personel.Id);
-                HttpContext.Session.SetString("Yetki", personel.Yetki);
+                ViewBag.Hata = "Sicil numarası bulunamadı.";
+                return View();
+            }
+
+
+            var passwordHasher = new PasswordHasher<Personel>();
+            var sonuc = passwordHasher.VerifyHashedPassword(person, person.Sifre, sifre);
+
+            if (sonuc == PasswordVerificationResult.Failed)
+            {
+                ViewBag.Hata = "Şifre hatalı.";
+                return View();
+            }
+            else
+            {
+                // Şifre doğruysa, kullanıcıyı giriş yapmış olarak işaretle
+                HttpContext.Session.SetInt32("PersonelId", person.Id);
+                HttpContext.Session.SetString("Yetki", person.Yetki);
                 return RedirectToAction("Index", "Home");
             }
 
-            ViewBag.Hata = "Sicil numarası veya şifre hatalı.";
-            return View();
+
         }
 
         public IActionResult Cikis()
