@@ -1,0 +1,132 @@
+﻿@model List<PersonelTayin.Models.TayinTalebi>
+
+@{
+    ViewData["Title"] = "Yönetici Paneli";
+}
+
+<style>
+    body {
+        background: linear-gradient(to right, #eef2f3, #ffffff);
+    }
+
+    .card {
+        border: none;
+        border-radius: 16px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+    }
+
+    .table thead {
+        background-color: #f8f9fa;
+    }
+
+    .table td, .table th {
+        vertical-align: middle;
+    }
+</style>
+
+<div class="container mt-5">
+    <div class="card shadow-sm mb-4">
+        <div class="card-body">
+            <h4 class="fw-bold text-dark">📋 Tüm Tayin Talepleri</h4>
+        </div>
+    </div>
+
+    <div class="table-responsive shadow-sm rounded">
+        <table class="table table-hover bg-white align-middle rounded">
+            <thead>
+                <tr>
+                    <th>Personel</th>
+                    <th>Unvan</th>
+                    <th>Talep Türü</th>
+                    <th>Tercih Adliye</th>
+                    <th>Açıklama</th>
+                    <th>Başvuru Tarihi</th>
+                    <th>Başvuru Durumu</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var talep in Model)
+                {
+                    <tr>
+                        <td>@talep.Personel.AdSoyad</td>
+                        <td>@talep.Personel.Unvan</td>
+                        <td>@talep.TalepTuru</td>
+                        <td>@talep.TercihAdliye</td>
+                        <td>@talep.Aciklama</td>
+                        <td>@talep.BasvuruTarihi.ToString("dd.MM.yyyy")</td>
+                        <td>
+                            <form asp-action="DurumuGuncelle" method="post" class="d-flex align-items-center">
+                                <input type="hidden" name="talepId" value="@talep.Id" />
+                                <select name="yeniDurum" class="form-select form-select-sm me-2" style="width: 150px;">
+                                    <option value="Bekliyor" selected="@(talep.Durum == "Bekliyor")">Bekliyor</option>
+                                    <option value="Onaylandı" selected="@(talep.Durum == "Onaylandı")">Onaylandı</option>
+                                    <option value="Reddedildi" selected="@(talep.Durum == "Reddedildi")">Reddedildi</option>
+
+                                </select>
+                                <button type="submit" class="btn btn-outline-primary btn-sm">Kaydet</button>
+                            </form>
+                        </td>
+
+                        <td>
+                            <button type="button" class="btn btn-sm btn-outline-info" data-bs-toggle="modal" data-bs-target="#detayModal_@talep.Id">
+                                🔍 Detay
+                            </button>
+                        </td>
+
+
+                        <div class="modal fade" id="detayModal_@talep.Id" tabindex="-1" aria-labelledby="detayModalLabel_@talep.Id" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered modal-lg">
+                                <div class="modal-content">
+                                    <div class="modal-header bg-dark text-white">
+                                        <h5 class="modal-title" id="detayModalLabel_@talep.Id">Talep Detayı (ID: @talep.Id)</h5>
+                                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p><strong>📌 Personel:</strong> @talep.Personel.AdSoyad</p>
+                                        <p><strong>🏷️ Unvan:</strong> @talep.Personel.Unvan</p>
+                                        <p><strong>📂 Talep Türü:</strong> @talep.TalepTuru</p>
+                                        <p><strong>📍 Tercih Adliye:</strong> @talep.TercihAdliye</p>
+                                        <p><strong>📝 Açıklama:</strong> @talep.Aciklama</p>
+                                        <p><strong>📅 Başvuru Tarihi:</strong> @talep.BasvuruTarihi.ToString("dd.MM.yyyy")</p>
+                                        <p>
+                                            <strong>📊 Durum:</strong>
+                                            @if (talep.Durum == "Bekliyor")
+                                            {
+                                                <span class="badge bg-warning text-dark">Bekliyor</span>
+                                            }
+                                            else if (talep.Durum == "Onaylandı")
+                                            {
+                                                <span class="badge bg-success">Onaylandı</span>
+                                            }
+                                            else if (talep.Durum == "Reddedildi")
+                                            {
+                                                <span class="badge bg-danger">Reddedildi</span>
+                                            }
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+
+
+                        <td>
+                                                         
+                                <form asp-action="TalepSil" method="post" onsubmit="return confirm('Bu talebi silmek istediğinizden emin misiniz?');">
+                                    <input type="hidden" name="id" value="@talep.Id" />
+                                    <button type="submit" class="btn btn-sm btn-outline-danger">🗑️</button>
+                                </form>
+
+                        </td>
+
+
+
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

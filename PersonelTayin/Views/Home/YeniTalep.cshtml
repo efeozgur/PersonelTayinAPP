@@ -1,0 +1,101 @@
+﻿@{
+    ViewData["Title"] = "Yeni Tayin Talebi";
+    var adliyeler = ViewBag.Adliyeler as List<string>;
+}
+
+<style>
+    body {
+        background: linear-gradient(to right, #eef2f3, #ffffff);
+    }
+
+    .card {
+        border: none;
+        border-radius: 16px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+    }
+
+    .card-header {
+        background: linear-gradient(to right, #004e92, #000428);
+        color: white;
+        border-top-left-radius: 16px;
+        border-top-right-radius: 16px;
+        padding: 1rem 1.25rem;
+    }
+
+    .form-control,
+    .form-select {
+        border-radius: 10px;
+        font-size: 0.95rem;
+    }
+
+    textarea {
+        resize: vertical;
+    }
+
+    .btn-submit {
+        background-color: #198754;
+        color: white;
+        font-weight: 600;
+        border-radius: 30px;
+        transition: all 0.2s ease;
+    }
+
+        .btn-submit:hover {
+            transform: scale(1.03);
+            background-color: #146c43;
+        }
+</style>
+
+<div class="container d-flex justify-content-center align-items-center" style="min-height: 100vh;">
+    <div class="card shadow w-100" style="max-width: 600px;">
+        <div class="card-header">
+            <h4 class="mb-0">Yeni Tayin Talebi Oluştur</h4>
+        </div>
+        <div class="card-body">
+            @if (ViewBag.Mesaj != null)
+            {
+                <div class="alert alert-success text-center">@ViewBag.Mesaj</div>
+            }
+
+            <form method="post">
+                <div class="mb-3">
+                    <label for="talepTuru" class="form-label">Talep Türü</label>
+                    <select class="form-select" id="talepTuru" name="talepTuru" required>
+                        <option value="">Talep türü seçiniz...</option>
+                        <option>İsteğe Bağlı</option>
+                        <option>Sağlık Nedeni</option>
+                        <option>Eş Durumu</option>
+                        <option>Diğer</option>
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label for="tercihAdliye" class="form-label">Tercih Edilen Adliye</label>
+                    <select class="form-select" id="tercihAdliye" name="tercihAdliye" required>
+                        <option value="">Adliye seçiniz...</option>
+                        @foreach (var adliye in adliyeler)
+                        {
+                            <option>@adliye</option>
+                        }
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label for="aciklama" class="form-label">Açıklama</label>
+                    <textarea class="form-control" id="aciklama" name="aciklama" rows="4" placeholder="Talebinize ilişkin kısa bir açıklama yazınız..." required></textarea>
+                </div>
+
+                <button type="submit" class="btn btn-submit w-100 py-2">Talebi Gönder</button>
+            </form>
+
+
+            <hr />
+            <div class="text-center mt-3">
+                <a href="/Home/Index" class="btn btn-outline-secondary rounded-pill px-4">
+                    ⬅ Anasayfaya Dön
+                </a>
+            </div>
+
+        </div>
+    </div>
+</div>

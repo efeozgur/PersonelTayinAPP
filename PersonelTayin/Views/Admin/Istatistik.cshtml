@@ -1,0 +1,132 @@
+﻿@{
+    ViewData["Title"] = "İstatistikler";
+}
+
+<style>
+    .stat-card {
+        border: none;
+        border-radius: 16px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+        padding: 1.5rem;
+        text-align: center;
+        transition: 0.2s ease-in-out;
+    }
+
+        .stat-card:hover {
+            transform: scale(1.02);
+        }
+
+    .icon-circle {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 10px auto;
+        font-size: 28px;
+        color: white;
+    }
+
+    .bg-bekleyen {
+        background-color: #ffc107;
+    }
+
+    .bg-onaylanan {
+        background-color: #198754;
+    }
+
+    .bg-reddedilen {
+        background-color: #dc3545;
+    }
+
+    .bg-toplam {
+        background-color: #0d6efd;
+    }
+</style>
+
+
+
+<div class="container mt-5">
+    <div class="row g-4">
+
+        <div class="col-md-3">
+            <div class="stat-card bg-white">
+                <div class="icon-circle bg-toplam">📊</div>
+                <h5 class="mb-1">Toplam Talep</h5>
+                <h3 class="text-primary">@ViewBag.Toplam</h3>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="stat-card bg-white">
+                <div class="icon-circle bg-onaylanan">✅</div>
+                <h5 class="mb-1">Onaylanan</h5>
+                <h3 class="text-success">@ViewBag.Onaylanan</h3>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="stat-card bg-white">
+                <div class="icon-circle bg-reddedilen">❌</div>
+                <h5 class="mb-1">Reddedilen</h5>
+                <h3 class="text-danger">@ViewBag.Reddedilen</h3>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="stat-card bg-white">
+                <div class="icon-circle bg-bekleyen">⏳</div>
+                <h5 class="mb-1">Bekleyen</h5>
+                <h3 class="text-warning">@ViewBag.Bekleyen</h3>
+            </div>
+        </div>
+
+    </div>
+
+
+    <div class="card shadow-sm mt-5">
+        <div class="card-header bg-dark text-white">
+            <h5 class="mb-0">📊 Durum Dağılım Grafiği</h5>
+        </div>
+        <div class="card-body text-center">
+            <canvas id="durumChart" style="max-height: 300px;"></canvas>
+        </div>
+    </div>
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    const ctx = document.getElementById('durumChart').getContext('2d');
+
+    const chart = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+            labels: ['Onaylanan', 'Reddedilen', 'Bekleyen'],
+            datasets: [{
+                label: 'Talep Durumu',
+                data: [@ViewBag.Onaylanan, @ViewBag.Reddedilen, @ViewBag.Bekleyen],
+                backgroundColor: [
+                    'rgba(25, 135, 84, 0.8)',   // Yeşil
+                    'rgba(220, 53, 69, 0.8)',   // Kırmızı
+                    'rgba(255, 193, 7, 0.8)'    // Sarı
+                ],
+                borderColor: ['white', 'white', 'white'],
+                borderWidth: 2
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'bottom'
+                },
+                title: {
+                    display: true,
+                    text: 'Tayin Taleplerinin Durum Dağılımı'
+                }
+            }
+        }
+    });
+</script>

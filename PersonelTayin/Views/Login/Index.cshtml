@@ -1,0 +1,43 @@
+﻿@{
+    ViewData["Title"] = "Giriş Yap";
+}
+
+<style>
+    body {
+        background: linear-gradient(to bottom right, #e8f0fe, #ffffff);
+        min-height: 100vh;
+    }
+</style>
+
+<div class="container d-flex justify-content-center align-items-center" style="height: 100vh;">
+    <div class="card shadow-lg p-3" style="width: 420px; border-radius: 20px;">
+        <div class="text-center">
+            <img src="https://cdn-icons-png.flaticon.com/512/3064/3064197.png" alt="User Icon" class="img-fluid" style="width: 100px; margin-top: 20px;" />
+        </div>
+
+        <div class="card-body">
+            <h4 class="card-title text-center mb-3">Personel Girişi</h4>
+
+            @if (ViewBag.Hata != null)
+            {
+                <div class="alert alert-danger text-center">@ViewBag.Hata</div>
+            }
+
+            <form method="post">
+                <div class="mb-3">
+                    <label for="sicilNo" class="form-label">Sicil Numarası</label>
+                    <input type="text" class="form-control form-control-lg" id="sicilNo" name="sicilNo" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="sifre" class="form-label">Şifre</label>
+                    <input type="password" class="form-control form-control-lg" id="sifre" name="sifre" required>
+                </div>
+
+                <button type="submit" class="btn btn-primary w-100 btn-lg mt-2">Giriş Yap</button>
+
+
+            </form>
+        </div>
+    </div>
+</div>
