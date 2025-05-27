@@ -1,29 +1,47 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using PersonelTayin.Models;
 
 namespace PersonelTayin.Controllers
 {
     public class PersonelController : Controller
     {
-        // GET: PersonelController
+
+        private readonly UygulamaDbContext _context;
+
+        public PersonelController(UygulamaDbContext context)
+        {
+            _context = context;
+        }
+
+
         public ActionResult Index()
         {
             return View();
         }
 
-        // GET: PersonelController/Details/5
+    
         public ActionResult Details(int id)
         {
             return View();
         }
 
-        // GET: PersonelController/Create
-        public ActionResult Create()
+        public IActionResult PersonelKayit(string adSoyad, string sicilNo, string unvan, string gorevYeri, string sifre, string cinsiyet)
         {
-            return View();
+            var personel = new Personel
+            {
+                AdSoyad = adSoyad,
+                SicilNo = sicilNo,  
+                Unvan = unvan,
+                GorevYeri = gorevYeri,
+                Sifre = sifre,
+                Cinsiyet= cinsiyet,
+            };
+            _context.Personeller.Add(personel);
+            _context.SaveChanges();
+            ViewBag.Message = "Personel kaydı başarıyla eklendi.";
+            return RedirectToAction("Index","Home");
         }
 
-        // POST: PersonelController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(IFormCollection collection)
@@ -38,13 +56,13 @@ namespace PersonelTayin.Controllers
             }
         }
 
-        // GET: PersonelController/Edit/5
+
         public ActionResult Edit(int id)
         {
             return View();
         }
 
-        // POST: PersonelController/Edit/5
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(int id, IFormCollection collection)
@@ -65,30 +83,20 @@ namespace PersonelTayin.Controllers
             return View();
         }
 
-        // POST: PersonelController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
 
-        public IActionResult unvanList()
+
+        public List<string> UnvanListesi()
         {
             var liste = new List<string>
             {
                 "Yazı İşleri Müdürü",
                 "Zabıt Katibi",
+                "Mübaşir",
+                "Memur",
+                "Hizmetli",
             };
-            ViewBag.liste = liste;
-            return View(liste);
+           
+            return liste;
         }
     }
 }

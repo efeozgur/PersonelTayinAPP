@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using PersonelTayin.Models;
-using Microsoft.AspNetCore.Http;
 
 namespace PersonelTayin.Controllers
 {

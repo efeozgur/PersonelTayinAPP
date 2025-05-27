@@ -1,5 +1,7 @@
 ﻿@using Microsoft.AspNetCore.Http
-
+@{
+    var kullanici = Context.Session.GetInt32("Id");
+}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -46,6 +48,10 @@
                     <li class="nav-item">
                         <a class="nav-link" href="/Login/Cikis">🚪 Çıkış Yap</a>
                     </li>
+
+
+
+
                 </ul>
             </div>
         </div>

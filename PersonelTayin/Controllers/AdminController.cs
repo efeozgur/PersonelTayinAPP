@@ -65,7 +65,7 @@ namespace PersonelTayin.Controllers
                 Helpers.LogHelper.Log($"Admin ID {HttpContext.Session.GetInt32("PersonelId")} → Talep silindi (ID: {id})");
 
 
-            }
+            } 
 
             return RedirectToAction("Index");
         }

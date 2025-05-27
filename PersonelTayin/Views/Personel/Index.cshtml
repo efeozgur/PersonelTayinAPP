@@ -21,7 +21,7 @@
                 <div class="alert alert-danger text-center">@ViewBag.Hata</div>
             }
 
-            <form method="post">
+            <form asp-action="PersonelKayit" method="post">
 
                 <div class="mb-3">
                     <label for="adSoyad" class="form-label">Adı Soyadı</label>
@@ -53,6 +53,14 @@
                     <input type="text" class="form-control form-control-lg" id="gorevYeri" name="gorevYeri" required>
                 </div>
 
+                <div class="mb-3">
+                    <label for="cinsiyet" class="form-label">Cinsiyet</label>
+                    <select class="form-select" id="cinsiyet" name="cinsiyet">
+                       <option value="">Cinsiyet Seçiniz...</option>
+                        <option value="Erkek">Erkek</option>
+                        <option value="Kadın">Kadın</option>
+                    </select>              
+                </div> 
 
                 <div class="mb-3">
                     <label for="sifre" class="form-label">Şifre</label>
