@@ -23,6 +23,7 @@ Bu proje, ASP.NET Core MVC kullanılarak geliştirilmiş, personellerin tayin ta
 - Kendi taleplerini görür
 
 ### 🛡️ Yönetici (Admin)
+- Varsayılan olarak admin sicili 96600 sifre 1'dir.
 - Tüm talepleri görür
 - Talep durumlarını değiştirir ve talepleri siler
 - İstatistik sayfasını görüntüler
