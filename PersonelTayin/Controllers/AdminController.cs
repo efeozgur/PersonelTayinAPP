@@ -11,12 +11,14 @@ namespace PersonelTayin.Controllers
     {
         private readonly UygulamaDbContext _context;
 
+        //crud işlemleri için _context oluşturduk 
         public AdminController(UygulamaDbContext context)
         {
             _context = context;
         }
         public IActionResult Index()
         {
+            // açılırken yetkiye bakalım eğer admin değilse Login sayfasına yönlendirelim
             var yetki = HttpContext.Session.GetString("Yetki");
 
             if (string.IsNullOrEmpty(yetki) || yetki != "Admin")
@@ -24,6 +26,7 @@ namespace PersonelTayin.Controllers
                 return RedirectToAction("Index", "Login");
             }
 
+            //talepleri başvuru tarihine göre sıralı olarak liste halinde Index'e gönderiyoruz
             var talepler = _context.TayinTalepleri
                 .Include(t => t.Personel)
                 .OrderByDescending(t => t.BasvuruTarihi)
@@ -33,7 +36,7 @@ namespace PersonelTayin.Controllers
         }
 
 
-
+        //talep durumunu güncelliyoruz. post ile gönderilen talep'in id ve yeni durumunu alıp database'e yazıyoruz.
 
 
         [HttpPost]
@@ -50,7 +53,7 @@ namespace PersonelTayin.Controllers
             return RedirectToAction("Index");
         }
 
-
+        //post ile gönderilen id numarasından ilgili talebi silme işlemi yapıyoruz. 
 
         [HttpPost]
         public IActionResult TalepSil(int id)
@@ -59,10 +62,11 @@ namespace PersonelTayin.Controllers
 
             if (talep != null)
             {
+                //kaydediyoruz ve sonrasında logluyoruz. 
                 _context.TayinTalepleri.Remove(talep);
                 _context.SaveChanges();
 
-                Helpers.LogHelper.Log($"Admin ID {HttpContext.Session.GetInt32("PersonelId")} → Talep silindi (ID: {id})");
+                Helpers.LogHelper.Log($"{HttpContext.Session.GetInt32("PersonelId")}  ID numaralı Admin tarafından Talep silindi (ID: {id})");
 
 
             } 
@@ -71,12 +75,7 @@ namespace PersonelTayin.Controllers
         }
 
 
-        [HttpGet]
-        public IActionResult TalepDuzenle(int id)
-        {
-            var talep = _context.TayinTalepleri.FirstOrDefault(t => t.Id == id);
-            return View(talep);
-        }
+     
 
        
 

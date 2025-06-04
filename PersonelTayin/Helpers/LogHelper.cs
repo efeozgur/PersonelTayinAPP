@@ -4,7 +4,7 @@
     {
         private static readonly string logPath = Path.Combine("Logs", "log.txt");
 
-        public static void Log(string message) // 💥 bu methodun adı kesinlikle Log olmalı
+        public static void Log(string message) // her yerden ulaşabilelim onun için static
         {
             try
             {
@@ -19,7 +19,7 @@
             }
             catch
             {
-                // log hatasını loglama :)
+                
             }
         }
     }
