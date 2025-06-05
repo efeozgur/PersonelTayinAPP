@@ -32,13 +32,7 @@ namespace PersonelTayinUygulamasi.Controllers
         }
 
 
-
-
-
-
-
-
-        //Kontrolleri yaptıktan sonra Yeni Talebi Kaydediyoruz
+        //Kontrolleri yaptÃ½ktan sonra Yeni Talebi Kaydediyoruz
         [HttpGet]
         public IActionResult YeniTalep()
         {
@@ -65,24 +59,24 @@ namespace PersonelTayinUygulamasi.Controllers
             _context.TayinTalepleri.Add(yeniTalep);
             _context.SaveChanges();
 
-            ViewBag.Mesaj = "Tayin talebiniz başarıyla kaydedildi.";
+            ViewBag.Mesaj = "Tayin talebiniz baÃ¾arÃ½yla kaydedildi.";
             ViewBag.Adliyeler = GetAdliyeListesi();
             return View();
         }
 
-        // Geçici olarak adliye listesi üretelim. Database eklenip oradan çekilebilir. 
+        // GeÃ§ici olarak adliye listesi Ã¼retelim. Database eklenip oradan Ã§ekilebilir. 
         private List<string> GetAdliyeListesi()
         {
             return new List<string>
         {
             "Adana Adliyesi",
-            "Adıyaman Adliyesi",
+            "AdÃ½yaman Adliyesi",
             "Ankara Adliyesi",
-            "İstanbul Adliyesi",
-            "İzmir Adliyesi",
+            "Ãstanbul Adliyesi",
+            "Ãzmir Adliyesi",
             "Bursa Adliyesi",
             "Erzurum Adliyesi",
-            // Listeyi tamamlarsın — 81 il merkezi
+           
         };
 
         }
